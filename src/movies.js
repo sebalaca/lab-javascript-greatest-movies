@@ -74,10 +74,48 @@ function orderAlphabetically(movies) {
 };
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
-function turnHoursToMinutes() {}
+function turnHoursToMinutes(moviesArray) {
+    return moviesArray.map(movie => {
+      const newMovie = { ...movie };
+      const durationParts = movie.duration.split(' ');
+      let totalMinutes = 0;
+  
+      for (let part of durationParts) {
+        if (part.includes('h')) {
+          totalMinutes += parseInt(part) * 60;
+        } else if (part.includes('min')) {
+          totalMinutes += parseInt(part);
+        }
+      }
+  
+      newMovie.duration = totalMinutes;
+      return newMovie;
+    });
+  }
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
-function bestYearAvg() {}
+function bestYearAvg(movies) {
+    if ( movies.length <= 0 ) return null
+    let maxAverage = 0;
+    let maxYear = undefined
+    let listOfYears = movies
+    .map(mv=>mv.year)
+    .filter((year,i,array)=>{
+      return array.indexOf(year) === i
+    })
+    listOfYears.forEach(year => {
+      let moviesByYear = movies.filter(mv=>mv.year === year)
+      let scoreAvg = scoresAverage(moviesByYear)
+      if ( scoreAvg > maxAverage ) {
+        maxAverage = scoreAvg; 
+        maxYear = year;
+      }
+      if ( scoreAvg === maxAverage ){
+        maxYear = maxYear < year ? maxYear : year
+      }
+    });
+    return `The best year was ${maxYear} with an average score of ${maxAverage}`
+  }
 
 
 
